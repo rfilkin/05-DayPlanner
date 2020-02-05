@@ -72,9 +72,10 @@
   <script type="text/javascript">
 
     function initialize_notes(){
-        var time_notes = ["", "", "", "", "", "", "", "", ""];
+        //var time_notes = ["", "", "", "", "", "", "", "", ""];
 
-        var time_notes = {
+        if(localStorage.length < 1){ //initialize localstorage if it's empty
+            var time_notes = {
             notes_9am: "",
             notes_10am: "",
             notes_11am: "",
@@ -84,9 +85,12 @@
             notes_3pm: "",
             notes_4pm: "",
             notes_5pm: ""
-        };
+            };
 
-        localStorage.setItem("time_notes", JSON.stringify(time_notes)); //this will be a JSON object to store our notes
+            localStorage.setItem("time_notes", JSON.stringify(time_notes)); //this will be a JSON object to store our notes
+        }
+
+        
     }
 
     function render_notes(){
@@ -108,15 +112,15 @@
 
     function render_colors(){
         var note_names = [
-            {name:"notes_9am", hour: 09, ampm: "am"},
+            {name:"notes_9am", hour: 9, ampm: "am"},
             {name:"notes_10am", hour: 10, ampm: "am"},
             {name:"notes_11am", hour: 11, ampm: "am"},
             {name:"notes_12pm", hour: 12, ampm: "pm"},
-            {name:"notes_1pm", hour: 01, ampm: "pm"},
-            {name:"notes_2pm", hour: 02, ampm: "pm"},
-            {name:"notes_3pm", hour: 03, ampm: "pm"},
-            {name:"notes_4pm", hour: 04, ampm: "pm"},
-            {name:"notes_5pm", hour: 05, ampm: "pm"},
+            {name:"notes_1pm", hour: 1, ampm: "pm"},
+            {name:"notes_2pm", hour: 2, ampm: "pm"},
+            {name:"notes_3pm", hour: 3, ampm: "pm"},
+            {name:"notes_4pm", hour: 4, ampm: "pm"},
+            {name:"notes_5pm", hour: 5, ampm: "pm"},
         ];
         var current_hour = console.log(moment().format('h')); //hour number
         //var current_hour = 12;
@@ -144,7 +148,7 @@
         current_hour, current_ampm, red_found){
         if (note_hour == current_hour &&
             note_ampm == current_ampm &&
-            !red_found){ //if our current time matches and no red was found..
+            !red_found){ //if our current time matches and no red was found...
             return "red"; //then this is our red cell
         }
         else if (red_found){
@@ -177,6 +181,7 @@
     $(".save_Btn").on("click", save_notes);
 
     $(document).ready(function() {
+        initialize_notes();
         render_notes();
         render_date();
         render_colors();
