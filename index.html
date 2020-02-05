@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+</head>
+<body>
+    <script src="./script.js"></script>
+
+    <div class="container" style="text-align: center;">
+        <h1>Work Day Scheduler</h1>
+        <h2>A simple calendar for scheduling your work day.</h2>
+        <h2 id="todaysDate"></h2>
+        <hr>
+        <table>
+            <tr>
+                <td>9:00 am</td> 
+                <td style="width: 89%;"><input type="text" id="notes_9am" style="height: 100px; width: 100%;"></td>
+                <td><button style="height: 100px;" class="btn btn-primary save_Btn">save</button></td>
+            </tr>
+            <tr>
+                <td>10:00 am</td>
+                <td style="width: 89%;"><input type="text" id="notes_10am" style="height: 100px; width: 100%;"></td>
+                <td><button style="height: 100px;" class="btn btn-primary save_Btn">save</button></td>
+            </tr>
+            <tr>
+                <td>11:00 am</td>
+                <td style="width: 89%;"><input type="text" id="notes_11am" style="height: 100px; width: 100%;"></td>
+                <td><button style="height: 100px;" class="btn btn-primary save_Btn">save</button></td>
+            </tr>
+            <tr>
+                <td>12:00 pm</td>
+                <td style="width: 89%;"><input type="text" id="notes_12pm" style="height: 100px; width: 100%;"></td>
+                <td><button style="height: 100px;" class="btn btn-primary save_Btn">save</button></td>
+            </tr>
+            <tr>
+                <td>1:00 pm</td>
+                <td style="width: 89%;"><input type="text" id="notes_1pm" style="height: 100px; width: 100%;"></td>
+                <td><button style="height: 100px;" class="btn btn-primary save_Btn">save</button></td>
+            </tr>
+            <tr>
+                <td>2:00 pm</td>
+                <td style="width: 89%;"><input type="text" id="notes_2pm" style="height: 100px; width: 100%;"></td>
+                <td><button style="height: 100px;" class="btn btn-primary save_Btn">save</button></td>
+            </tr>
+            <tr>
+                <td>3:00 pm</td>
+                <td style="width: 89%;"><input type="text" id="notes_3pm" style="height: 100px; width: 100%;"></td>
+                <td><button style="height: 100px;" class="btn btn-primary save_Btn">save</button></td>
+            </tr>
+            <tr>
+                <td>4:00 pm</td>
+                <td style="width: 89%;"><input type="text" id="notes_4pm" style="height: 100px; width: 100%;"></td>
+                <td><button style="height: 100px;" class="btn btn-primary save_Btn">save</button></td>
+            </tr>
+            <tr>
+                <td>5:00 pm</td>
+                <td style="width: 89%;"><input type="text" id="notes_5pm" style="height: 100px; width: 100%;"></td>
+                <td><button style="height: 100px;" class="btn btn-primary save_Btn">save</button></td>
+            </tr>
+        </table>
+        <div class="tableHolder"></div>
+    </div>
+    
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+    <script type="text/javascript" src="lib/moment/moment.min.js"></script>
+
+  <script type="text/javascript">
+
+    function initialize_notes(){
+        var time_notes = ["", "", "", "", "", "", "", "", ""];
+
+        var time_notes = {
+            notes_9am: "",
+            notes_10am: "",
+            notes_11am: "",
+            notes_12pm: "",
+            notes_1pm: "",
+            notes_2pm: "",
+            notes_3pm: "",
+            notes_4pm: "",
+            notes_5pm: ""
+        };
+
+        localStorage.setItem("time_notes", JSON.stringify(time_notes)); //this will be a JSON object to store our notes
+    }
+
+    function render_notes(){
+        var current_notes = JSON.parse(localStorage.getItem("time_notes"));
+        $("#notes_9am").val(current_notes.notes_9am);
+        $("#notes_10am").val(current_notes.notes_10am);
+        $("#notes_11am").val(current_notes.notes_11am);
+        $("#notes_12pm").val(current_notes.notes_12pm);
+        $("#notes_1pm").val(current_notes.notes_1pm);
+        $("#notes_2pm").val(current_notes.notes_2pm);
+        $("#notes_3pm").val(current_notes.notes_3pm);
+        $("#notes_4pm").val(current_notes.notes_4pm);
+        $("#notes_5pm").val(current_notes.notes_5pm);
+    }
+
+    function render_date(){
+        $("#todaysDate").text(moment().format('dddd, MMMM Do'));
+    }
+
+    function render_colors(){
+        var note_names = [
+            {name:"notes_9am", hour: 09, ampm: "am"},
+            {name:"notes_10am", hour: 10, ampm: "am"},
+            {name:"notes_11am", hour: 11, ampm: "am"},
+            {name:"notes_12pm", hour: 12, ampm: "pm"},
+            {name:"notes_1pm", hour: 01, ampm: "pm"},
+            {name:"notes_2pm", hour: 02, ampm: "pm"},
+            {name:"notes_3pm", hour: 03, ampm: "pm"},
+            {name:"notes_4pm", hour: 04, ampm: "pm"},
+            {name:"notes_5pm", hour: 05, ampm: "pm"},
+        ];
+        var current_hour = console.log(moment().format('h')); //hour number
+        //var current_hour = 12;
+        var current_ampm = console.log(moment().format('a')); //am or pm
+        //var current_ampm = "pm";
+        
+        var red_found = false; //tracks whether we have found our red cell. if so, make all further cells green
+
+        for (var i = 0; i < note_names.length; i++){
+            var note_color = render_color(
+                note_names[i].hour, note_names[i].ampm,
+                current_hour, current_ampm, red_found);
+
+            if ( note_color == "red"){ //if we have found our red, mark as so.
+                red_found = true;
+            }
+
+            $("#" + note_names[i].name).attr("style", "height: 100px; width: 100%; background-color: " + 
+            note_color + ";"); //assign color to cell
+        }
+    }
+
+    function render_color(
+        note_hour, note_ampm,
+        current_hour, current_ampm, red_found){
+        if (note_hour == current_hour &&
+            note_ampm == current_ampm &&
+            !red_found){ //if our current time matches and no red was found..
+            return "red"; //then this is our red cell
+        }
+        else if (red_found){
+            return "green"; //ensure all cells after the red one are green
+        }
+        else{
+            return "gray"; //ensure all cells before the red one are gray
+        }
+    }
+
+    function save_notes(){
+        var current_notes = {
+            notes_9am: $("#notes_9am").val(),
+            notes_10am: $("#notes_10am").val(),
+            notes_11am: $("#notes_11am").val(),
+            notes_12pm: $("#notes_12pm").val(),
+            notes_1pm: $("#notes_1pm").val(),
+            notes_2pm: $("#notes_2pm").val(),
+            notes_3pm: $("#notes_3pm").val(),
+            notes_4pm: $("#notes_4pm").val(),
+            notes_5pm: $("#notes_5pm").val(),
+        };
+
+        console.log(current_notes);
+
+        localStorage.setItem("time_notes", JSON.stringify(current_notes));
+    }
+
+
+    $(".save_Btn").on("click", save_notes);
+
+    $(document).ready(function() {
+        render_notes();
+        render_date();
+        render_colors();
+        console.log(moment());
+    });
+
+  </script>
+</body>
+</html>
