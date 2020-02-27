@@ -14,3 +14,6 @@ The cells on the page will dynamically change color according to the current loc
 
 On the backend, the moment.js library has been imported as moment.min.js.
 The code used for the script is contained in the html file instead of in a separate script file.
+
+# deployed version:
+https://rfilkin.github.io/05-DayPlanner/
